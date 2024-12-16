@@ -6,39 +6,39 @@ import EditAmountInStock from '@/components/EditAmountInStock';
 
 type Item = {
   itemID: number;
-  category: string; // Category of the item (e.g., electronics, clothing)
-  description: string; // Description of the item
-  name: string; // Name of the item
-  brand: string; // Brand of the item
-  price: number; // Price of the item (in cents or dollars)
-  quantity: number; // Quantity available in stock
-  amountOrdered: number; // Amount ordered by the user
+  category: string;
+  description: string;
+  name: string;
+  brand: string;
+  price: number;
+  quantity: number;
+  amountOrdered: number;
 };
 
 export const ItemQuantityColumns: ColumnDef<Item>[] = [
   {
-    accessorKey: 'name', // Accessor for the item name
-    header: 'Product Name', // User-facing column name
+    accessorKey: 'name',
+    header: 'Product Name',
   },
   {
-    accessorKey: 'price', // Accessor for the item price
-    header: 'Price', // User-facing column name
+    accessorKey: 'price',
+    header: 'Price',
     cell: ({ row }) => {
       const price = parseFloat(row.getValue('price'));
       const formatted = new Intl.NumberFormat('en-CA', {
         style: 'currency',
         currency: 'CAD',
-      }).format(price); // Format price in Canadian dollars (CAD)
+      }).format(price);
 
       return <div className='font-medium'>{formatted}</div>;
     },
   },
   {
-    accessorKey: 'quantity', // Accessor for the item quantity
-    header: () => <div className='text-left'>In-stock</div>, // Left-align the header
+    accessorKey: 'quantity',
+    header: () => <div className='text-left'>In-stock</div>,
     cell: ({ row }) => {
       const quantity = row.getValue<number>('quantity');
-      return <div className='text-left font-medium'>{quantity}</div>; // Left-align the cell content
+      return <div className='text-left font-medium'>{quantity}</div>;
     },
   },
   {
@@ -53,10 +53,17 @@ export const ItemQuantityColumns: ColumnDef<Item>[] = [
     id: 'editQuantity',
     cell: ({ row }) => {
       const item = row.original;
+
+      // Define the refreshItems function
+      const refreshItems = () => {
+        console.log('Refreshing item list...');
+        // Add logic to refresh items, e.g., re-fetch data from the server
+      };
+
       return (
         <div className='flex justify-center'>
-          {/* Pass the item to the EditQuantityDialog */}
-          <EditAmountInStock item={item} />
+          {/* Pass both the item and refreshItems to EditAmountInStock */}
+          <EditAmountInStock item={item} refreshItems={refreshItems} />
         </div>
       );
     },

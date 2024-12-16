@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
 type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
 };
 
 export const CustomerAccountsTable = () => {
@@ -83,7 +83,13 @@ export const CustomerAccountsTable = () => {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>{header.isPlaceholder ? null : header.column.columnDef.header}</TableHead>
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : typeof header.column.columnDef.header === 'function'
+                      ? header.column.columnDef.header(header.getContext())
+                      : header.column.columnDef.header}
+                  </TableHead>
                 ))}
               </TableRow>
             ))}
@@ -93,7 +99,7 @@ export const CustomerAccountsTable = () => {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{cell.getValue()}</TableCell>
+                    <TableCell key={cell.id}>{cell.getValue() as React.ReactNode}</TableCell>
                   ))}
                   <TableCell>
                     <Button variant='outline' size='sm' onClick={() => handleEdit(row.original as Customer)}>

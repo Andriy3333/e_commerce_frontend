@@ -1,23 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import {
-  ColumnDef,
-  flexRender,
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-} from '@tanstack/react-table';
+import React from 'react';
+import { ColumnDef, flexRender, useReactTable, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export type Item = {
   name: string;
@@ -27,17 +14,15 @@ export type Item = {
   amountOrdered: number;
 };
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { price: number; amountOrdered: number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function ShoppingTable<TData, TValue>({
+export function ShoppingTable<TData extends { price: number; amountOrdered: number }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [pageSize, setPageSize] = useState(7); // Cap results to 7 per page
-
   const table = useReactTable({
     data,
     columns,
@@ -51,10 +36,7 @@ export function ShoppingTable<TData, TValue>({
   });
 
   // Calculate the total price
-  const totalPrice = data.reduce(
-    (total, item) => total + item.price * item.amountOrdered,
-    0
-  );
+  const totalPrice = data.reduce((total, item) => total + item.price * item.amountOrdered, 0);
 
   return (
     <div className='p-4'>
@@ -66,12 +48,7 @@ export function ShoppingTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -86,21 +63,13 @@ export function ShoppingTable<TData, TValue>({
                   className='cursor-pointer hover:bg-gray-100'
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
+                <TableCell colSpan={columns.length} className='h-24 text-center'>
                   No results found.
                 </TableCell>
               </TableRow>
@@ -110,34 +79,21 @@ export function ShoppingTable<TData, TValue>({
       </div>
 
       {/* Total Price Display */}
-      <div className='text-lg font-medium mt-4'>
-        Total Price: ${totalPrice.toFixed(2)}
-      </div>
+      <div className='text-lg font-medium mt-4'>Total Price: ${totalPrice.toFixed(2)}</div>
 
       {/* Pagination Controls */}
       <div className='flex items-center justify-between py-4'>
         {/* Page Info */}
         <div className='text-sm'>
-          Page {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
 
         {/* Pagination Buttons */}
         <div className='flex space-x-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
+          <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             Previous
           </Button>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
+          <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
             Next
           </Button>
         </div>

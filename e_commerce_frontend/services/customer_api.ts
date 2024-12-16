@@ -285,7 +285,7 @@ export const getCustomerWithId = async (id: number) => {
 };
 
 // Fetch All Customers
-export const getAllCustomer = async (): Promise<CustomerData[] | null> => {
+export const getAllCustomer = async (): Promise<any[] | null> => {
   try {
     const response = await fetch(`${API_URL}`, {
       method: 'GET',
@@ -295,7 +295,7 @@ export const getAllCustomer = async (): Promise<CustomerData[] | null> => {
     });
 
     if (response.ok) {
-      const customers: CustomerData[] = await response.json();
+      const customers: any[] = await response.json();
       console.log('Fetched all customers successfully:', customers);
       return customers;
     } else {

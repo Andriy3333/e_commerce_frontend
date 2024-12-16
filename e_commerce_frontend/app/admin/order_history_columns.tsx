@@ -37,7 +37,7 @@ export const OrderHistoryColumns: ColumnDef<EnrichedOrder>[] = [
     accessorKey: 'item.price',
     header: 'Item Price',
     cell: ({ getValue }) => {
-      const value = getValue();
+      const value = getValue() as number; // Explicitly type the value as a number
       return `$${value.toFixed(2)}`; // Format price to dollar with 2 decimal points
     },
   },

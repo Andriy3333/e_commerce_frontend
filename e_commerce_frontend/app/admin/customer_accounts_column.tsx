@@ -8,7 +8,8 @@ type Customer = {
   password: string;
 };
 
-export const customerAccountsColumns: ColumnDef<Customer>[] = [
+// Correctly typed with `ColumnDef<Customer, any>[]`
+export const customerAccountsColumns: ColumnDef<Customer, any>[] = [
   {
     accessorKey: 'firstName',
     header: 'First Name',

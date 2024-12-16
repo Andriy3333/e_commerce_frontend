@@ -8,10 +8,10 @@ import React from 'react';
 const page = () => {
   const router = useRouter();
 
-  async function handleBackToAdmin(event: MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
+  async function handleBackToAdmin(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     await updateAllInfo();
 
-    //logout
+    // Logout
     localStorage.removeItem('user_data');
     localStorage.removeItem('address');
     localStorage.removeItem('billing');
