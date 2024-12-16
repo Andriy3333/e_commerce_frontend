@@ -29,7 +29,8 @@ async function getItemData(): Promise<Item[]> {
 const Page = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [data, setData] = useState<Item[]>([]);
-  const [loading, setLoading] = useState(true); // New state to track loading status
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<string>('customer-accounts'); // Default tab
   const router = useRouter();
 
   useEffect(() => {
@@ -41,18 +42,31 @@ const Page = () => {
     const fetchData = async () => {
       const items = await getItemData();
       setData(items);
-      setLoading(false); // Set loading to false after data is fetched
+      setLoading(false);
     };
 
     fetchData();
   }, []);
 
+  // Save and retrieve the active tab state from localStorage
+  useEffect(() => {
+    const storedTab = localStorage.getItem('active_tab');
+    if (storedTab) {
+      setActiveTab(storedTab);
+    }
+  }, []);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    localStorage.setItem('active_tab', value);
+  };
+
   const handleLogout = () => {
-    localStorage.setItem('is_admin', 'false'); // Set is_admin to false
+    localStorage.setItem('is_admin', 'false');
   };
 
   if (loading) {
-    return null; // Render nothing while loading
+    return null;
   }
 
   if (localStorage.getItem('user_data')) {
@@ -63,7 +77,7 @@ const Page = () => {
           <Button
             variant='outline'
             className='text-lg font-bold py-3 px-6 w-full sm:w-auto cursor-pointer mt-5'
-            onClick={() => router.push('/')} // Navigate to home
+            onClick={() => router.push('/')}
           >
             Back to Home
             <svg
@@ -91,7 +105,7 @@ const Page = () => {
 
   return (
     <div className='container mx-auto py-10 min-h-screen flex flex-col'>
-      <Tabs defaultValue='customer-accounts' className='w-full'>
+      <Tabs value={activeTab} onValueChange={handleTabChange} className='w-full'>
         <TabsList className='grid grid-cols-3'>
           <TabsTrigger value='modify-quantities'>Modify Quantities</TabsTrigger>
           <TabsTrigger value='customer-accounts'>Customer Accounts</TabsTrigger>
@@ -113,11 +127,7 @@ const Page = () => {
 
       <div className='flex justify-center'>
         <Link href='/'>
-          <Button
-            variant='outline'
-            className='text-lg font-bold py-3 px-6 cursor-pointer'
-            onClick={handleLogout} // Call handleLogout when the button is clicked
-          >
+          <Button variant='outline' className='text-lg font-bold py-3 px-6 cursor-pointer' onClick={handleLogout}>
             Log out of Admin Account
             <svg
               xmlns='http://www.w3.org/2000/svg'

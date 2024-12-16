@@ -17,13 +17,7 @@ import { Label } from '@/components/ui/label';
 import { updateItemQuantity } from '@/services/item_api'; // Ensure correct import
 import { Item } from '@/app/catalog/columns';
 
-const EditAmountInStock = ({
-  item,
-  refreshItems,
-}: {
-  item: Item;
-  refreshItems: () => void;
-}) => {
+const EditAmountInStock = ({ item, refreshItems }: { item: Item; refreshItems: () => void }) => {
   const [open, setOpen] = useState(false); // Dialog open state
   const [quantity, setQuantity] = useState(item.quantity); // Store current quantity
   const [error, setError] = useState(''); // Error message
@@ -46,6 +40,7 @@ const EditAmountInStock = ({
       refreshItems(); // Refresh items after successful update
       setOpen(false); // Close dialog on success
       console.log('Quantity updated');
+      window.location.reload(); // Reload the page to reflect the changes
     } catch (error) {
       console.error('Error updating quantity', error);
       setError('Failed to update quantity. Please try again.');
@@ -65,9 +60,7 @@ const EditAmountInStock = ({
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Update Item Quantity</DialogTitle>
-          <DialogDescription>
-            Choose a quantity between 0 and 1,000,000.
-          </DialogDescription>
+          <DialogDescription>Choose a quantity between 0 and 1,000,000.</DialogDescription>
         </DialogHeader>
 
         {/* Input for changing the amount in stock */}
