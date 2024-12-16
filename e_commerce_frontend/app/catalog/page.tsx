@@ -25,10 +25,7 @@ export default async function ItemTable() {
       </div>
       {/* View Shopping Cart Button */} {/* Increased bottom margin here */}
       <Link href='/cart'>
-        <Button
-          variant='outline'
-          className='text-lg font-bold py-3 px-6  cursor-pointer'
-        >
+        <Button variant='outline' className='text-lg font-bold py-3 px-6  cursor-pointer'>
           View Your Shopping Cart
           <svg
             xmlns='http://www.w3.org/2000/svg'

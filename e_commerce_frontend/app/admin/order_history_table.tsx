@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-
+import { Skeleton } from '@/components/ui/skeleton'; // Import the skeleton component
 import { getAllOrders } from '@/services/order_api';
 import { OrderHistoryColumns } from './order_history_columns';
 
@@ -32,25 +32,22 @@ type EnrichedOrder = {
   };
 };
 
-// Data Table Props
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
-
-// Main OrderHistoryTable Component
 export function OrderHistoryTable() {
   const [orders, setOrders] = useState<EnrichedOrder[]>([]);
+  const [loading, setLoading] = useState(true); // Track loading state
 
   // Fetch data from API
   useEffect(() => {
     const fetchOrders = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await getAllOrders();
         console.log('Enriched orders:', response);
         setOrders(response);
       } catch (error) {
         console.error('Failed to fetch order history:', error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
     fetchOrders();
@@ -61,41 +58,56 @@ export function OrderHistoryTable() {
     columns: OrderHistoryColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(), // Enable sorting
+    getSortedRowModel: getSortedRowModel(),
     initialState: {
       pagination: {
-        pageSize: 8,
+        pageSize: 7,
       },
       sorting: [
         {
           id: 'dateOfPurchase',
-          desc: true, // Sort by date descending
+          desc: true,
         },
       ],
     },
   });
 
+  if (loading) {
+    // Show skeleton while loading
+    return (
+      <div className='p-4'>
+        <div className='rounded-md border bg-white bg-opacity-70 mt-2 p-4'>
+          {/* Skeleton Header */}
+          <Skeleton className='h-6 w-full mb-4' />
+          {/* Skeleton Rows */}
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div key={index} className='flex items-center space-x-2'>
+              <Skeleton className='h-4 w-1/6' />
+              <Skeleton className='h-4 w-1/3' />
+              <Skeleton className='h-4 w-1/4' />
+              <Skeleton className='h-4 w-1/5' />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='p-4'>
-      {/* Order History Table */}
       <div className='rounded-md border bg-white bg-opacity-70 mt-2'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    onClick={() => table.setSorting([{ id: header.id, desc: true }])} // Enable sorting on click
-                  >
+                  <TableHead key={header.id} onClick={() => table.setSorting([{ id: header.id, desc: true }])}>
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
-
-          {/* Table Body */}
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -115,15 +127,10 @@ export function OrderHistoryTable() {
           </TableBody>
         </Table>
       </div>
-
-      {/* Pagination Controls */}
       <div className='mt-4 flex items-center justify-between py-2'>
-        {/* Pagination Info */}
         <div className='text-xs'>
           Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
-
-        {/* Pagination Buttons */}
         <div className='space-x-1'>
           <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             Previous

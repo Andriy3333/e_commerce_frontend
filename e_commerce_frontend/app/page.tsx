@@ -21,10 +21,7 @@ export default function Home() {
           Gamer Gear
         </h1>
         <Link href='/catalog'>
-          <Button
-            variant='outline'
-            className='text-lg font-bold py-3 px-6  cursor-pointer'
-          >
+          <Button variant='outline' className='text-lg font-bold py-3 px-6  cursor-pointer'>
             Explore Our Catalog
             <svg
               xmlns='http://www.w3.org/2000/svg'

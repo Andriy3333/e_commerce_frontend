@@ -102,7 +102,11 @@ export const CustomerAccountsTable = () => {
                     <TableCell key={cell.id}>{cell.getValue() as React.ReactNode}</TableCell>
                   ))}
                   <TableCell>
-                    <Button variant='outline' size='sm' onClick={() => handleEdit(row.original as Customer)}>
+                    <Button
+                      variant='outline'
+                      className='h-7 w-12 px-4 text-s'
+                      onClick={() => handleEdit(row.original as Customer)}
+                    >
                       Edit
                     </Button>
                   </TableCell>

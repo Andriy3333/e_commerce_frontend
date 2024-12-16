@@ -22,26 +22,20 @@ const NavMenu = () => {
           {/* Home Button */}
           <NavigationMenuItem>
             <Link href='/' legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Home
-              </NavigationMenuLink>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Home</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           {/* View Catalog Link */}
           <NavigationMenuItem>
             <Link href='/catalog' legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                View Catalog
-              </NavigationMenuLink>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>View Catalog</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           {/* Conditionally render User Login, Register, and Admin Login if loggedIn is false */}
           {/* Account Page */}
           <NavigationMenuItem>
             <Link href='/account' legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Account
-              </NavigationMenuLink>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Account</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           {/* Conditionally render "View Cart" if cartExists is true */}
@@ -67,9 +61,7 @@ const NavMenu = () => {
             {/* Admin Login */}
             <NavigationMenuItem>
               <Link href='/admin' legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Admin Login
-                </NavigationMenuLink>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>Admin Login</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
           </>
