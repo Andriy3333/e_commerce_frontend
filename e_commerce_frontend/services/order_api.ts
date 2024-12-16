@@ -53,7 +53,7 @@ export const placeOrder = async () => {
 
       // Send the order
       try {
-        const response = await fetch('https://35.183.86.101/order', {
+        const response = await fetch('http://35.183.86.101/order', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export const placeOrder = async () => {
  // Fetch all orders and enrich them with user and item data
 export const getAllOrders = async () => {
   try {
-    const response = await fetch('https://35.183.86.101/order', {
+    const response = await fetch('http://35.183.86.101/order', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ export const getAllOrders = async () => {
 export const getUserOrders = async (userId: string) => {
   try {
     const response = await fetch(
-      `https://35.183.86.101/order/user/${encodeURIComponent(userId)}`,
+      `http://35.183.86.101/order/user/${encodeURIComponent(userId)}`,
       {
         method: 'GET',
         headers: {
