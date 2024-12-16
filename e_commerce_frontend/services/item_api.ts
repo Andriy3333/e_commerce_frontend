@@ -2,7 +2,7 @@ import { Item } from "@/app/catalog/columns";
 
 export const getAllItems = async () => {
     try {
-      const response = await fetch('http://35.183.86.101/item', {
+      const response = await fetch('https://35.183.86.101/item', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const getAllItems = async () => {
       console.log(updatedItem);
   
       // Send the updated item to the backend for saving
-      const response = await fetch('http://35.183.86.101/item/save', {
+      const response = await fetch('https://35.183.86.101/item/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const getAllItems = async () => {
   };
 
   export const getItemWithId = async (id: number) => {
-    const apiUrl = `http://35.183.86.101/item/${id}`;
+    const apiUrl = `https://35.183.86.101/item/${id}`;
   
     try {
       const response = await fetch(apiUrl, {

@@ -16,9 +16,9 @@ interface CustomerData {
   id:number;
 }
 
-const API_URL = 'http://35.183.86.101/customer'; // Backend API URL
-const ADDRESS_API_URL = 'http://35.183.86.101/address'; // Address API URL
-const BILLING_API_URL = 'http://35.183.86.101/billing'; // Billing API URL
+const API_URL = 'https://35.183.86.101/customer'; // Backend API URL
+const ADDRESS_API_URL = 'https://35.183.86.101/address'; // Address API URL
+const BILLING_API_URL = 'https://35.183.86.101/billing'; // Billing API URL
 
 
 // Customer Login Method
@@ -252,7 +252,7 @@ export const updateAllInfo = async (): Promise<boolean> => {
 };
 
 export const getCustomerWithId = async (id: number) => {
-  const apiUrl = `http://35.183.86.101/customer/${id}`;
+  const apiUrl = `https://35.183.86.101/customer/${id}`;
 
   try {
     const response = await fetch(apiUrl, {
